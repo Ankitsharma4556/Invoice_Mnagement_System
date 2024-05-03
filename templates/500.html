@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>500 Internal Server Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>500 Internal Server Error</h1>
+    <p>Oops! Something went wrong on our end.</p>
+    <p>Our team has been notified and we are working to fix the issue.</p>
+    <p>Please try again later or contact support if the problem persists.</p>
+    <p><a href="{{ url_for('main.home') }}">Go back to the homepage</a></p>
+</body>
+</html>

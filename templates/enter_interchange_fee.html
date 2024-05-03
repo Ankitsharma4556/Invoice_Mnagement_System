@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Interchange Fee Form</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.interchange_amt.label(class="form-control-label") }}
+            {{ form.interchange_amt(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.minimum_interchange.label(class="form-control-label") }}
+            {{ form.minimum_interchange(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.interchange_percentage.label(class="form-control-label") }}
+            {{ form.interchange_percentage(class="form-control") }}
+        </div>
+        {% if form.interchange_amt.data == 0 and form.minimum_interchange.data == 0 %}
+            <p>Both Interchange Amount and Minimum Interchange are set to 0. The Interchange fee will be skipped.</p>
+        {% endif %}
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</div>
+{% endblock %}

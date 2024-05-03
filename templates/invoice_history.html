@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice History{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="text-center mb-4">Invoice History</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Biller</th>
+                            <th>Client</th>
+                            <th>Issuer</th>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date</th>
+                            <th>Invoice Amount</th>
+                            <th>Tax Amount</th>
+                            <th>Total Amount</th>
+                            <th>Invoice Type</th>
+                            <th>Invoice Month</th>
+                            <th>Charge Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invoice in invoices %}
+                        <tr>
+                            <td>{{ invoice.invoice_id }}</td>
+                            <td>{{ invoice.biller.biller_name }}</td>
+                            <td>{{ invoice.client.client_name }}</td>
+                            <td>{{ invoice.issuer.issuer_name }}</td>
+                            <td>{{ invoice.invoice_number }}</td>
+                            <td>{{ invoice.invoice_date }}</td>
+                            <td>{{ invoice.invoice_amount }}</td>
+                            <td>{{ invoice.tax_amount }}</td>
+                            <td>{{ invoice.total_amount }}</td>
+                            <td>{{ invoice.invoice_type }}</td>
+                            <td>{{ invoice.invoice_month }}</td>
+                            <td>{{ invoice.charge_date }}</td>
+                            <td>
+                                <a href="{{ url_for('main.view_invoice', invoice_id=invoice.invoice_id) }}" class="btn btn-primary btn-sm" target="_blank">View</a>
+                                <a href="{{ url_for('main.download_invoice', invoice_id=invoice.invoice_id) }}" class="btn btn-secondary btn-sm">Download</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

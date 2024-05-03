@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Welcome to Invoice Generation System</h1>
+        <p class="lead">Simplify your invoicing process and manage your clients and fees efficiently.</p>
+        <hr class="my-4">
+        <p>Please log in to access the system.</p>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('main.login') }}" role="button">Log In</a>
+    </div>
+</div>
+{% endblock %}

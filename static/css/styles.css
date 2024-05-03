@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    margin: 0;
+    padding: 10px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.company-info {
+    margin-bottom: 10px;
+}
+
+.client-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.invoice-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.table th, .table td {
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.totals {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.totals div {
+    margin-left: 10px;
+}
+
+.bank-info {
+    margin-bottom: 10px;
+}
+
+.other-details {
+    margin-bottom: 10px;
+}

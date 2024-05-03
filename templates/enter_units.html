@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Enter Units</h1>
+    <form method="POST">
+        {% for fee in applicable_fees %}
+        <div class="form-group">
+            <label for="units_{{ fee.fee_id }}">{{ fee.fee_name }} Units</label>
+            <input type="number" class="form-control" id="units_{{ fee.fee_id }}" name="units_{{ fee.fee_id }}" min="0"
+                required>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Generate Invoice</button>
+    </form>
+</div>
+{% endblock %}

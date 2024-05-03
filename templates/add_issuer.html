@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Issuer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Add Issuer</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.add_issuer') }}">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        {{ form.issuer_name.label(class="form-label") }}
+                        {{ form.issuer_name(class="form-control") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Issuer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

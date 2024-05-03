@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Fee{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Fee</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.edit_fee', fee_id=fee.fee_id) }}">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        {{ form.fee_name.label(class="form-label") }}
+                        {{ form.fee_name(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.fee_type.label(class="form-label") }}
+                        {{ form.fee_type(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.fee_frequency.label(class="form-label") }}
+                        {{ form.fee_frequency(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.hsn_code.label(class="form-label") }}
+                        {{ form.hsn_code(class="form-control") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

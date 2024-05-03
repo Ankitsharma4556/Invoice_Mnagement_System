@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tax Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 20px;
+            border: 1px solid #080000;
+            box-sizing: border-box;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .company-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .client-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .client-info .billed-to,
+        .client-info .shipped-to {
+            flex: 1;
+        }
+
+        .client-info .billed-to {
+            text-align: left;
+        }
+
+        .client-info .shipped-to {
+            text-align: right;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #080000;
+        }
+
+        .table th {
+            background-color: #17aeff;
+            text-align: center;
+        }
+
+        .totals {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .bank-info {
+            margin-bottom: 40px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Tax Invoice</h1>
+    </div>
+
+    <div class="company-info">
+        <p>MONEPEAK FINTECH PRIVATE LIMITED</p>
+        <p>No.1142, 4th Floor, 6th Main, 7th Sector</p>
+        <p>HSR Layout, Bangalore Karnataka-560102</p>
+        <p>GSTIN: 29AANCM2711J1Z8</p>
+    </div>
+
+    <div class="client-info">
+        <div class="billed-to">
+            <p><strong>Billed to:</strong></p>
+            <p>{{ client.client_name }}</p>
+            <p>{{ client.client_address }}</p>
+            <p>GSTIN:{{ client.client_gstin }}</p>
+        </div>
+        <div class="shipped-to">
+            <p><strong>Shipped to:</strong></p>
+            <p>{{ client.client_name }}</p>
+            <p>{{ client.client_address }}</p>
+            <p>GSTIN:{{ client.client_gstin }}</p>
+        </div>
+    </div>
+
+    <div class="invoice-details">
+        <div>
+            <p><strong>Invoice No.:</strong> {{ invoice.invoice_number }}</p>
+            <p><strong>Invoice Date:</strong> {{ invoice.invoice_date.strftime('%d-%m-%Y') }}</p>
+        </div>
+        <div>
+            <p><strong>Ref:</strong></p>
+            <p><strong>PO Number:</strong></p>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Description of Products</th>
+                <th>HSN Code</th>
+                <th>Qty. PCs</th>
+                <th>Unit Price</th>
+                <th>Price</th>
+                <th>IGST @ 18%</th>
+                <th>Total Amount INR</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in line_items %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.description if not item.fee else item.fee.fee_name }}</td>
+                <td>{{ item.fee.hsn_code if item.fee and item.fee.hsn_code else '' }}</td>
+                <td>{{ item.units }}</td>
+                <td>{{ item.unit_price }}</td>
+                <td>{{ item.total }}</td>
+                <td>{{ item.gst_amount }}</td>
+                <td>{{ item.final_amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totals">
+        <p><strong>Total Tax Amount:</strong> {{ invoice.tax_amount }}</p>
+        <p><strong>Taxable Amount:</strong> {{ invoice.taxable_amount }}</p>
+        <p><strong>IGST @ 18%:</strong> {{ invoice.tax_amount }}</p>
+        <p><strong>Rounding Up:</strong> {{ invoice.rounding_up }}</p>
+        <p><strong>Grand Total:</strong> {{ invoice.grand_total }}</p>
+        <p><strong>Invoice Total Amount In Words:</strong> {{ invoice.invoice_amount_in_words }}</p>
+    </div>
+
+    <div class="bank-info">
+        <p><strong>Our banker's details for remitting funds:</strong></p>
+        <p><strong>Name:</strong> Yes Bank</p>
+        <p><strong>A/C No.:</strong> 002281300009440</p>
+        <p><strong>Beneficiary:</strong> MONEPEAK FINTECH PRIVATE LIMITED</p>
+        <p><strong>IFSC Code:</strong> YESB0000022</p>
+    </div>
+
+    <div class="terms-and-conditions">
+        <p><strong>Terms and Conditions:</strong></p>
+        <ol>
+            <li>Payment terms: Immediate.</li><br>
+            <li>All disputes are subject to Bangalore jurisdiction only</li><br>
+            <li>No part payments will be accepted.</li><br>
+            <li>In case of online payments (RTGS/NEFT) please send the details by email on "finance@card91.io"</li><br>
+            <li>Cheques/Demand Draft to be drawn in favour of "MONEPEAK FINTECH PRIVATE LIMITED"</li><br>
+            <li>Any changes in the Invoice should be brought to our notice within 7 days. No requests will be entertained thereafter.</li><br>
+        </ol>
+    </div>
+
+    <div class="footer">
+        <p>MONEPEAK FINTECH PRIVATE LIMITED &copy;</p>
+    </div>
+</body>
+</html>
