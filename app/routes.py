@@ -1,5 +1,7 @@
 from functions import calculate_interchange_line_item, generate_invoice_line_items, get_applicable_fees
 from num2words import num2words
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from flask import Blueprint, render_template, redirect, url_for, flash, request, make_response
 from flask_login import login_user, logout_user, login_required, current_user
 from models import db, User, Biller, Client, Issuer, FeeMaster, ClientProductFeeMapping, Invoice, Product, FeeHistory, InvoiceLineItem, InterchangeFee
@@ -24,7 +26,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             if user.role == 'admin':
                 return redirect(url_for('main.admin_home'))
@@ -40,7 +42,8 @@ def register():
         return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(user_id=generate_user_id(), username=form.username.data, password=form.password.data, role=form.role.data)
+        hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
+        user = User(user_id=generate_user_id(), username=form.username.data, password=hashed_password, role=form.role.data)
         db.session.add(user)
         db.session.commit()
         flash('Registration successful. You can now log in.', 'success')
