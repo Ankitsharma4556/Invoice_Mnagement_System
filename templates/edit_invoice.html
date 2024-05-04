@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Edit Invoice{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="text-center mb-4">Edit Invoice</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.invoice_id.label(class="form-label") }}
+                {{ form.invoice_id(class="form-control", readonly=True) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.invoice_number.label(class="form-label") }}
+                {{ form.invoice_number(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.invoice_date.label(class="form-label") }}
+                {{ form.invoice_date(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.invoice_amount.label(class="form-label") }}
+                {{ form.invoice_amount(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.tax_rate.label(class="form-label") }}
+                {{ form.tax_rate(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.tax_amount.label(class="form-label") }}
+                {{ form.tax_amount(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.total_amount.label(class="form-label") }}
+                {{ form.total_amount(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.invoice_type.label(class="form-label") }}
+                {{ form.invoice_type(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.invoice_month.label(class="form-label") }}
+                {{ form.invoice_month(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.charge_date.label(class="form-label") }}
+                {{ form.charge_date(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.taxable_amount.label(class="form-label") }}
+                {{ form.taxable_amount(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.rounding_up.label(class="form-label") }}
+                {{ form.rounding_up(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.grand_total.label(class="form-label") }}
+                {{ form.grand_total(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.invoice_amount_in_words.label(class="form-label") }}
+                {{ form.invoice_amount_in_words(class="form-control") }}
+            </div>
+
+            <div class="text-center">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

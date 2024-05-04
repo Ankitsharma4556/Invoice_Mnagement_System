@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 from flask import Blueprint, render_template, redirect, url_for, flash, request, make_response
 from flask_login import login_user, logout_user, login_required, current_user
 from models import db, User, Biller, Client, Issuer, FeeMaster, ClientProductFeeMapping, Invoice, Product, FeeHistory, InvoiceLineItem, InterchangeFee
-from forms import LoginForm, RegistrationForm, GenerateClientInvoiceForm, AddClientForm, AddIssuerForm, AddFeeForm, AddProductForm, EditIssuerForm, EditFeeForm, EditProductForm, DynamicFeeForm, InterchangeFeeForm, ClientProductFeeMappingForm
+from forms import LoginForm, RegistrationForm, GenerateClientInvoiceForm, AddClientForm, AddIssuerForm, AddFeeForm, AddProductForm, EditIssuerForm, EditFeeForm, EditProductForm, DynamicFeeForm, InterchangeFeeForm, ClientProductFeeMappingForm, EditInvoiceForm
 from datetime import datetime, timedelta
 from flask import render_template_string
 from html_to_pdf import generate_pdf_from_html
@@ -228,6 +228,56 @@ def generate_invoices(client_id, start_date, end_date, form_data, applicable_fee
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=invoice_{invoice.invoice_number}.pdf'
     return response
+
+@blueprint.route('/edit-invoice/<string:invoice_id>', methods=['GET', 'POST'])
+@login_required
+def edit_invoice(invoice_id):
+    if current_user.role != 'admin':
+        flash('Access denied. You must be an admin to access this page.', 'danger')
+        return redirect(url_for('main.home'))
+
+    invoice = Invoice.query.get(invoice_id)
+    if not invoice:
+        flash('Invoice not found.', 'danger')
+        return redirect(url_for('main.invoice_history'))
+
+    form = EditInvoiceForm(obj=invoice)
+    if form.validate_on_submit():
+        edited_invoice = Invoice(
+            invoice_id=generate_invoice_id(),
+            biller_id=invoice.biller_id,
+            client_id=invoice.client_id,
+            issuer_id=invoice.issuer_id,
+            invoice_number=form.invoice_number.data,
+            invoice_date=form.invoice_date.data,
+            invoice_amount=form.invoice_amount.data,
+            tax_rate=form.tax_rate.data,
+            tax_amount=form.tax_amount.data,
+            total_amount=form.total_amount.data,
+            invoice_type=form.invoice_type.data,
+            invoice_month=form.invoice_month.data,
+            charge_date=form.charge_date.data,
+            taxable_amount=form.taxable_amount.data,
+            rounding_up=form.rounding_up.data,
+            grand_total=form.grand_total.data,
+            invoice_amount_in_words=form.invoice_amount_in_words.data
+        )
+        db.session.add(edited_invoice)
+
+        edited_invoice_relation = EditedInvoice(
+            original_invoice_id=invoice_id,
+            edited_invoice_id=edited_invoice.invoice_id,
+            edited_by=current_user.user_id
+        )
+        db.session.add(edited_invoice_relation)
+
+        db.session.commit()
+        flash('Invoice edited successfully.', 'success')
+        return redirect(url_for('main.invoice_history'))
+
+    return render_template('edit_invoice.html', form=form, invoice=invoice)
+
+
 
 @blueprint.route('/invoice-history')
 @login_required

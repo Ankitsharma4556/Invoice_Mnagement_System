@@ -33,6 +33,26 @@ class GenerateClientInvoiceForm(FlaskForm):
             self.interchange_amt = DecimalField('Interchange Amount', validators=[DataRequired()], default=0)
             self.minimum_interchange = DecimalField('Minimum Interchange', validators=[DataRequired()], default=0)
 
+
+
+class EditInvoiceForm(FlaskForm):
+    invoice_id = StringField('Invoice ID', validators=[DataRequired()])
+    invoice_number = StringField('Invoice Number', validators=[DataRequired()])
+    invoice_date = DateField('Invoice Date', validators=[DataRequired()])
+    invoice_amount = DecimalField('Invoice Amount', validators=[DataRequired()])
+    tax_rate = DecimalField('Tax Rate', validators=[DataRequired()])
+    tax_amount = DecimalField('Tax Amount', validators=[DataRequired()])
+    total_amount = DecimalField('Total Amount', validators=[DataRequired()])
+    invoice_type = StringField('Invoice Type', validators=[DataRequired()])
+    invoice_month = DateField('Invoice Month', validators=[DataRequired()])
+    charge_date = DateField('Charge Date', validators=[DataRequired()])
+    taxable_amount = DecimalField('Taxable Amount', validators=[DataRequired()])
+    rounding_up = DecimalField('Rounding Up', validators=[DataRequired()])
+    grand_total = DecimalField('Grand Total', validators=[DataRequired()])
+    invoice_amount_in_words = StringField('Invoice Amount in Words', validators=[DataRequired()])
+
+    submit = SubmitField('Save Changes')
+
 class AddClientForm(FlaskForm):
     client_name = StringField('Client Name', validators=[DataRequired()])
     client_address = StringField('Client Address')

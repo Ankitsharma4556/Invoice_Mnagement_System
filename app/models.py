@@ -166,3 +166,15 @@ class FeeHistory(db.Model):
     total = db.Column(db.Numeric(10, 2))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     modified_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class EditedInvoice(db.Model):
+    __tablename__ = 'edited_invoices'
+    id = db.Column(db.Integer, primary_key=True)
+    original_invoice_id = db.Column(db.String(30), db.ForeignKey('invoices.invoice_id'), nullable=False)
+    edited_invoice_id = db.Column(db.String(30), db.ForeignKey('invoices.invoice_id'), nullable=False)
+    edited_at = db.Column(db.DateTime, default=datetime.utcnow)
+    edited_by = db.Column(db.String(30), db.ForeignKey('users.user_id'), nullable=False)
+
+    original_invoice = db.relationship('Invoice', foreign_keys=[original_invoice_id])
+    edited_invoice = db.relationship('Invoice', foreign_keys=[edited_invoice_id])
+    editor = db.relationship('User')
