@@ -2,7 +2,6 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'app')))
 import os
-# Set the WKHTMLTOPDF_PATH environment variable
 wkhtmltopdf_path = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
 os.environ['WKHTMLTOPDF_PATH'] = wkhtmltopdf_path
 from flask import Flask
